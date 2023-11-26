@@ -30,7 +30,7 @@ import { useRouter } from 'vue-router'
           context.emit('login')
 
         }
-        router.push({name:'home'})
+         router.push({name:'Chatroom'})
 
       }
 
