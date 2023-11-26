@@ -1,23 +1,35 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Welcome from '../views/Welcome.vue'
-import home from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import Welcome from "../views/Welcome.vue";
+import Chatroom from "../views/Chatroom.vue";
+import { projectAuth } from "@/firebase/config";
+
+// auth guard
+const requireAuth = (to, from, next) => {
+  let user = projectAuth.currentUser;
+  console.log("current user in auth guard: ", user);
+  if (!user) {
+    console.log({name : 'Welcome'});
+  }
+  next()
+};
 
 const routes = [
   {
-    path: '/',
-    name: 'Welcome',
-    component: Welcome
+    path: "/",
+    name: "Welcome",
+    component: Welcome,
   },
   {
-    path: '/home',
-    name: 'home',
-    component: home
-  }
-]
+    path: "/chatroom",
+    name: "Chatroom",
+    component: Chatroom,
+    beforeEnter: requireAuth,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
